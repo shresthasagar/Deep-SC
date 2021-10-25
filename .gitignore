@@ -1,0 +1,6 @@
+**data
+venv
+**.pyc
+**__pycache__
+pathdef.m
+**log*
