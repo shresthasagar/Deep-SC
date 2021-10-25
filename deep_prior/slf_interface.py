@@ -9,7 +9,6 @@ sys.path.append(os.path.join(dir_path, '..', 'deep_prior'))
 from networks.ae import  AutoencoderSelu
 from utils import *
 import torch
-import scipy.io
 import torch.nn as nn
 
 lr = 0.01

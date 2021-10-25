@@ -6,7 +6,6 @@ sys.path.append(os.path.join(dir_path, '..', 'deep_prior'))
 from networks.ae import  AutoencoderSelu
 from utils import *
 import torch
-import scipy.io
 import torch.nn as nn
 
 
@@ -46,17 +45,5 @@ def map_complete(X, W, model_path='default'):
     return full_map.copy()
 
 if __name__ == '__main__':
-    # X = np.random.rand(51,51,64)
-    # W = np.ones((51,51))
-    # z = np.random.rand(51,51,5)
-    # C = np.random.rand(64,5)
-    # R = 5
-    # a = run_descent(W,X,z,C,R)
-    # ROOT = '/home/sagar/Projects/radio_map_deep_prior/psd_recovery/data'
-    # BASE = '/home/sagar/Projects/radio_map_deep_prior/deep_prior'
 
-    # X = scipy.io.loadmat(os.path.join(ROOT,'T.mat'))['T']
-    # W = scipy.io.loadmat(os.path.join(ROOT,'Om.mat'))['Om']
-    # full_map = model(X,W)
-    # print(cost_func(X,full_map))
     pass
