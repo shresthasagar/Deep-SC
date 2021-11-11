@@ -46,5 +46,4 @@ Ov(Omega) = true;
 [X_dowjons, time_dowjons, S_dowjons, C_dowjons] = dowjons(X_true, Ov, R, C_true);
 
 % [X_deep, time_deep] = deepcomp(X_true, Ov);
-% [X_btd, S_btd, C_btd] = btd(X_true, Sc, C_true, Ov);
 % X_tps = full_tps(X_true, Ov);

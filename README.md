@@ -7,7 +7,7 @@ To run the code follow the followign installation instructions:
 
     1. Install all python packages located in requirements.txt.
 
-    2. Download tensorlab from https://www.tensorlab.net/.
+    2. Download tensorlab from  https://www.tensorlab.net
 
     3. Make sure that the above packages are in your environment path.
 
