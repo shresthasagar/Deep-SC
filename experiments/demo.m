@@ -5,12 +5,12 @@ addpath ../src
 reload_module
 
 K = 64;
-R = 3;
-shadow_sigma = 8;
+R = 7;
+shadow_sigma = 6;
 d_corr = 50;
 structured_psd = false;
 use_snr = false;
-rho = 0.05; % sampling fraction
+rho = 0.1; % sampling fraction
 
 % Generate map
 [X_true, Sc, C_true, peaks, Bmat] = generate_map(false, K, R, shadow_sigma, d_corr, structured_psd, 's', false, 50); 
@@ -45,6 +45,4 @@ Ov(Omega) = true;
 
 [X_dowjons, time_dowjons, S_dowjons, C_dowjons] = dowjons(X_true, Ov, R, C_true);
 
-% [X_deep, time_deep] = deepcomp(X_true, Ov);
-% [X_btd, S_btd, C_btd] = btd(X_true, Sc, C_true, Ov);
-% X_tps = full_tps(X_true, Ov);
+[X_deep, time_deep] = deepcomp(X_true, Ov);
