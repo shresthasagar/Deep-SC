@@ -21,7 +21,7 @@ function T_recovered = full_tps(T, Ovec)
     x_grid = 1:I;
     y_grid = 1:J;
     [x,y] = meshgrid(y_grid, x_grid);
-    lambda = 1e-1;
+    lambda = 0.5e1;
     Linv = get_tps_inv(X_coord, Y_coord, lambda);
 
     kf=@(r) r.^2.*log(abs(r)+eps);

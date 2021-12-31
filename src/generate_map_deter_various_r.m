@@ -1,4 +1,8 @@
 function [X Sc Ctrue peaks Bmat] = generate_map(dB, K, R, shadow_sigma, Xc, structured_c, basis, strictly_separable, spatial_resolution)
+    % This function is separate from generate_map_deter because in order to see the effect of various r, most/all slaps need to have R emitters. Also, number of occupied bands is made constant so that it does not affect the reconstruction metric.
+    % Note that the advantage of proposed method is better articulated when sampling frequency (rho) < 5%. For e.g. at 2%
+    % In addition, the effect is more discernible when the emitters are more crowded. So we sample emitter locations in the range 10m to 40m in the x-y direction. 
+
     seed = sum(100*clock);
     s = RandStream('mt19937ar','Seed',seed,'NormalTransform','Polar');
     
@@ -14,25 +18,30 @@ function [X Sc Ctrue peaks Bmat] = generate_map(dB, K, R, shadow_sigma, Xc, stru
     end
 
     Ctrue=[];
-    num_peaks_per_psd = 20;
+    num_peaks_per_psd = 16;
 
-    ind_psd = R*3+2:2:K-2;
+    ind_psd = R*2+3:2:K-2;
+    % num_peaks_per_psd = length(ind_psd)-R;
+    num_peaks_per_psd = length(ind_psd);
+
     Bmat = [];
     if strictly_separable
         for rr=1:R
             psd_peaks = ind_psd(randperm(length(ind_psd), num_peaks_per_psd));
-            % am = 0.5+ 1.5*rand(s,num_peaks_per_psd,1);
-            am = 1.5*rand(s,num_peaks_per_psd,1);
+            % am = 0.5+ 1.5*rand(num_peaks_per_psd,1);
+            am = 0.5 + 1.5*rand(num_peaks_per_psd,1);
 
             % First peak, ensure separability if needed
             % c{rr} = am(1)*Sx(rr,1);
-            c{rr} = am(1)*Sx(1+(rr-1)*3,2+3*rand(s));
+            % c{rr} = am(1)*Sx(1+(rr-1)*3,2+3*rand());
+            c{rr} = am(1)*Sx(1+(rr-1)*2.5,2+3*rand());
+
             Bmat = [Bmat c{rr}];
-            % c{rr} = am(1)*Sx(psd_peaks(1),2+2*rand(s));
+            % c{rr} = am(1)*Sx(psd_peaks(1),2+2*rand());
             
             % Remaining peaks
-            for q=2:num_peaks_per_psd
-                c{rr} = c{rr} + am(q)*Sx(psd_peaks(q),2+2*rand(s));
+            for q=2:num_peaks_per_psd-1
+                c{rr} = c{rr} + am(q)*Sx(psd_peaks(q),2+2.5*rand());
             end
             Bmat = [Bmat c{rr}];
             Ctrue = [Ctrue,c{rr}];
@@ -40,15 +49,15 @@ function [X Sc Ctrue peaks Bmat] = generate_map(dB, K, R, shadow_sigma, Xc, stru
     else
         psd_peaks = ind_psd(randperm(length(ind_psd), num_peaks_per_psd-1));            
         for rr=1:R
-            am = 0.5 + 1.5*rand(s,num_peaks_per_psd,1);
+            am = 0.5 + 1.5*rand(num_peaks_per_psd,1);
 
             % First peak, ensure separability if needed
-            c{rr} = am(1)*Sx(2+(rr-1)*2,2+2.5*rand(s));
+            c{rr} = am(1)*Sx(2+(rr-1)*2,2+2*rand());
             Bmat = [Bmat c{rr}];
 
             % Remaining peaks
             for q=1:num_peaks_per_psd-1
-                c{rr} = c{rr} + am(q)*Sx(psd_peaks(q),2+2.5*rand(s));
+                c{rr} = c{rr} + am(q)*Sx(psd_peaks(q),2+3*rand());
             end
             Bmat = [Bmat c{rr}];
             Ctrue = [Ctrue,c{rr}];
@@ -81,14 +90,14 @@ function [X Sc Ctrue peaks Bmat] = generate_map(dB, K, R, shadow_sigma, Xc, stru
     spatial_offset = 1 + (50 - spatial_resolution)/2;
     
     for rr=1:R
-        % location = 10+30*rand(s) + 1i*(10+30*rand(s));
-        location = (spatial_offset + spatial_resolution*rand(s)) + 1i*(spatial_offset + spatial_resolution*rand(s));
+        % location = 10+30*rand() + 1i*(10+30*rand());
+        location = (spatial_offset + spatial_resolution*rand()) + 1i*(spatial_offset + spatial_resolution*rand());
         peaks{rr} = [uint8(real(location)), uint8(imag(location))];
         % location = locations(rr);
         loss_mat = abs(Xgrid - location);
         alpha = 2+0.5*rand;
         p = exp(-1/Xc);
-        shadow = Shadowing(Xgrid,shadow_sigma,p);
+        shadow = Shadowing_deter(Xgrid,shadow_sigma,p);
         shadow_linear = 10.^(shadow/10);
         Sc{rr} = loss_f(loss_mat,d0,alpha).*shadow_linear;
         Sc{rr} = Sc{rr}/norm(Sc{rr},'fro');
@@ -98,7 +107,6 @@ function [X Sc Ctrue peaks Bmat] = generate_map(dB, K, R, shadow_sigma, Xc, stru
     if dB
         for rr=1:R
             Sc{rr} = real(10*log10(Sc{rr}));  % Remove all the fibers with nan entries along the column
-
         end
     end
 
