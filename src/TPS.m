@@ -1,7 +1,6 @@
 function T_recovered = full_tps(T, Ovec)
     [I,J,K] = size(T);
     T_recovered = zeros(I,J,K);
-    % T = 10*log10(T);
     X_coord = [];
     Y_coord = [];
     Z = [];
@@ -21,7 +20,7 @@ function T_recovered = full_tps(T, Ovec)
     x_grid = 1:I;
     y_grid = 1:J;
     [x,y] = meshgrid(y_grid, x_grid);
-    lambda = 1e-1;
+    lambda = 0.5e1;
     Linv = get_tps_inv(X_coord, Y_coord, lambda);
 
     kf=@(r) r.^2.*log(abs(r)+eps);
@@ -45,7 +44,4 @@ function T_recovered = full_tps(T, Ovec)
      
         T_recovered(:,:,k) = reshape(z, [I J])';
     end
-    % T_recovered = 10.^(T_recovered/10);
-    % T3 = tens2mat(T_recovered,3);
-
 end

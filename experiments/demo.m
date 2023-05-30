@@ -1,16 +1,17 @@
 clear;
 
 addpath ../src
+addpath ../utils
 
 reload_module
 
 K = 64;
-R = 3;
-shadow_sigma = 8;
+R = 5;
+shadow_sigma = 6;
 d_corr = 50;
 structured_psd = false;
 use_snr = false;
-rho = 0.05; % sampling fraction
+rho = 0.1; % sampling fraction
 
 % Generate map
 [X_true, Sc, C_true, peaks, Bmat] = generate_map(false, K, R, shadow_sigma, d_corr, structured_psd, 's', false, 50); 
@@ -45,5 +46,60 @@ Ov(Omega) = true;
 
 [X_dowjons, time_dowjons, S_dowjons, C_dowjons] = dowjons(X_true, Ov, R, C_true);
 
+<<<<<<< HEAD
 % [X_deep, time_deep] = deepcomp(X_true, Ov);
 % X_tps = full_tps(X_true, Ov);
+=======
+[X_deep, time_deep] = deepcomp(X_true, Ov);
+
+[X_btd, S_btd, C_btd] = btd(X_true, Sc, C_true, Ov);
+
+
+% Plot figures
+k = 5;  % change this if the slab is empty
+
+
+h = figure(1);
+
+tiledlayout(1, 5, 'Padding', 'none', 'TileSpacing', 'compact'); 
+    
+nexttile    
+contourf(10*log10(X_true(:,:,k)), 100, 'linecolor', 'None');
+set(gca,'XTick',[],'YTick',[])
+header = sprintf('True Map')
+title(header);
+colormap jet;
+
+
+nexttile    
+contourf(10*log10(X_nasdac(:,:,k)), 100, 'linecolor', 'None');
+set(gca,'XTick',[],'YTick',[])
+header = sprintf('Nasdac')
+title(header);
+colormap jet;
+
+nexttile    
+contourf(10*log10(X_dowjons(:,:,k)), 100, 'linecolor', 'None');
+set(gca,'XTick',[],'YTick',[])
+header = sprintf('Dowjons')
+title(header);
+colormap jet;
+
+
+nexttile    
+contourf(real(10*log10(X_deep(:,:,k))), 100, 'linecolor', 'None');
+set(gca,'XTick',[],'YTick',[])
+header = sprintf('DeepComp')
+title(header);
+colormap jet;
+
+
+nexttile    
+contourf(real(10*log10(X_btd(:,:,k))), 100, 'linecolor', 'None');
+set(gca,'XTick',[],'YTick',[])
+header = sprintf('LL1')
+title(header);
+colormap jet;
+
+% saveas(gcf, 'figure.pdf')
+>>>>>>> 7504aac199917921b0112ab138fbdf17be83a358

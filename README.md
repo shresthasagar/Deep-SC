@@ -15,4 +15,3 @@ To run the code follow the followign installation instructions:
 
 Sample demonstration of the proposed method in the paper is available in experiments/demo.m
 
-TODO: write a more detailed Readme and add visualization in demo.m

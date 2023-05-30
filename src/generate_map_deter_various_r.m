@@ -1,4 +1,8 @@
 function [X Sc Ctrue peaks Bmat] = generate_map(dB, K, R, shadow_sigma, Xc, structured_c, basis, strictly_separable, spatial_resolution)
+    % This function is separate from generate_map_deter because in order to see the effect of various r, most/all slaps need to have R emitters. Also, number of occupied bands is made constant so that it does not affect the reconstruction metric.
+    % Note that the advantage of proposed method is better articulated when sampling frequency (rho) < 5%. For e.g. at 2%
+    % In addition, the effect is more discernible when the emitters are more crowded. So we sample emitter locations in the range 10m to 40m in the x-y direction. 
+
     seed = sum(100*clock);
     s = RandStream('mt19937ar','Seed',seed,'NormalTransform','Polar');
     
@@ -16,7 +20,10 @@ function [X Sc Ctrue peaks Bmat] = generate_map(dB, K, R, shadow_sigma, Xc, stru
     Ctrue=[];
     num_peaks_per_psd = 16;
 
-    ind_psd = R*3+3:2:K-2;
+    ind_psd = R*2+3:2:K-2;
+    % num_peaks_per_psd = length(ind_psd)-R;
+    num_peaks_per_psd = length(ind_psd);
+
     Bmat = [];
     if strictly_separable
         for rr=1:R
@@ -45,12 +52,12 @@ function [X Sc Ctrue peaks Bmat] = generate_map(dB, K, R, shadow_sigma, Xc, stru
             am = 0.5 + 1.5*rand(num_peaks_per_psd,1);
 
             % First peak, ensure separability if needed
-            c{rr} = am(1)*Sx(2+(rr-1)*2.2,2+2.3*rand());
+            c{rr} = am(1)*Sx(2+(rr-1)*2,2+2*rand());
             Bmat = [Bmat c{rr}];
 
             % Remaining peaks
             for q=1:num_peaks_per_psd-1
-                c{rr} = c{rr} + am(q)*Sx(psd_peaks(q),2+2*rand());
+                c{rr} = c{rr} + am(q)*Sx(psd_peaks(q),2+3*rand());
             end
             Bmat = [Bmat c{rr}];
             Ctrue = [Ctrue,c{rr}];
