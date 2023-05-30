@@ -3,6 +3,9 @@
 Implementation of the paper, "Deep Spectrum Cartography: Completing Radio Map Tensors Using Learned Neural Model" (https://arxiv.org/abs/2105.00177).
 
 ## Installation:
+The code was built with the `python3.6`, `matlab2020b`, and `torch=1.10.2`
+
+
 To run the code follow the followign installation instructions:
 
     1. Install all python packages located in requirements.txt.
