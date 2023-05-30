@@ -1,7 +1,6 @@
 clear;
 
 addpath ../src
-addpath ../utils
 
 reload_module
 
@@ -46,13 +45,14 @@ Ov(Omega) = true;
 
 [X_dowjons, time_dowjons, S_dowjons, C_dowjons] = dowjons(X_true, Ov, R, C_true);
 
-<<<<<<< HEAD
-% [X_deep, time_deep] = deepcomp(X_true, Ov);
-% X_tps = full_tps(X_true, Ov);
-=======
-[X_deep, time_deep] = deepcomp(X_true, Ov);
 
-[X_btd, S_btd, C_btd] = btd(X_true, Sc, C_true, Ov);
+% % [X_deep, time_deep] = deepcomp(X_true, Ov);
+% % X_tps = full_tps(X_true, Ov);
+
+
+% [X_deep, time_deep] = deepcomp(X_true, Ov);
+
+% [X_btd, S_btd, C_btd] = btd(X_true, Sc, C_true, Ov);
 
 
 % Plot figures
@@ -61,7 +61,7 @@ k = 5;  % change this if the slab is empty
 
 h = figure(1);
 
-tiledlayout(1, 5, 'Padding', 'none', 'TileSpacing', 'compact'); 
+tiledlayout(1, 3, 'Padding', 'none', 'TileSpacing', 'compact'); 
     
 nexttile    
 contourf(10*log10(X_true(:,:,k)), 100, 'linecolor', 'None');
@@ -86,20 +86,19 @@ title(header);
 colormap jet;
 
 
-nexttile    
-contourf(real(10*log10(X_deep(:,:,k))), 100, 'linecolor', 'None');
-set(gca,'XTick',[],'YTick',[])
-header = sprintf('DeepComp')
-title(header);
-colormap jet;
+% nexttile    
+% contourf(real(10*log10(X_deep(:,:,k))), 100, 'linecolor', 'None');
+% set(gca,'XTick',[],'YTick',[])
+% header = sprintf('DeepComp')
+% title(header);
+% colormap jet;
 
 
-nexttile    
-contourf(real(10*log10(X_btd(:,:,k))), 100, 'linecolor', 'None');
-set(gca,'XTick',[],'YTick',[])
-header = sprintf('LL1')
-title(header);
-colormap jet;
+% nexttile    
+% contourf(real(10*log10(X_btd(:,:,k))), 100, 'linecolor', 'None');
+% set(gca,'XTick',[],'YTick',[])
+% header = sprintf('LL1')
+% title(header);
+% colormap jet;
 
-% saveas(gcf, 'figure.pdf')
->>>>>>> 7504aac199917921b0112ab138fbdf17be83a358
+saveas(gcf, 'figure.pdf')
