@@ -38,7 +38,7 @@ Implementation of the paper, "[Deep Spectrum Cartography: Completing Radio Map T
 ## Results:
 
 <p align='center' style="background-color:white;" >
-    <img src='img/sep_performance_compare.png' style='width:100%; margin-left:10px'>
+    <img src='img/sep_performance_compare.png' style='width:70%; margin-left:10px'>
     </br>
     <figurecaption style='color: black'>Completed Radio maps using different methods.</figurecaption>
 </p>
@@ -52,7 +52,7 @@ Implementation of the paper, "[Deep Spectrum Cartography: Completing Radio Map T
 </br>
 
 <p align='center' style="background-color:white;" >
-    <img src='img/sep_slf_disaggregate_all4.png' style='width:80%; margin-left:10px'>
+    <img src='img/sep_slf_disaggregate_all4.png' style='width:70%; margin-left:10px'>
     </br>
     <figurecaption style='color: black'>Recovered SLF by the proposed methods.</figurecaption>
 </p>
