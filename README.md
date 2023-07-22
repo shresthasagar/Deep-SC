@@ -11,9 +11,9 @@ Implementation of the paper, "[Deep Spectrum Cartography: Completing Radio Map T
     </br>
     <figurecaption style='color: black'>[Left] SC environment. [Right] SC task.</figurecaption>
 </p>
+</br>
 
 ## Proposed Method:
-
 <p align='center' style="background-color:white;" >
     <img src='img/emitter_disaggregate.png' style='width:70%; margin-left:10px'>
     </br>
@@ -31,7 +31,7 @@ Implementation of the paper, "[Deep Spectrum Cartography: Completing Radio Map T
 <p align='center' style="background-color:white;" >
     <img src='img/dowjons_illus2.png' style='width:100%; margin-left:10px'>
     </br>
-    <figurecaption style='color: black'>Method 2:Deep generative priOr With Joint OptimizatioN for Spectrum cartography (Dowjons). 
+    <figurecaption style='color: black'>Method 2: Deep generative priOr With Joint OptimizatioN for Spectrum cartography (Dowjons). 
     </figurecaption>
 </p>
 
