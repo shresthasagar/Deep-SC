@@ -5,7 +5,7 @@ addpath ../src
 reload_module
 
 K = 64;
-R = 5;
+R = 1;
 shadow_sigma = 6;
 d_corr = 50;
 structured_psd = false;
@@ -45,6 +45,7 @@ Ov(Omega) = true;
 
 [X_dowjons, time_dowjons, S_dowjons, C_dowjons] = dowjons(X_true, Ov, R, C_true);
 
+
 % Plot figures
 k = 5;  % change this if the slab is empty
 
@@ -54,7 +55,7 @@ h = figure(1);
 tiledlayout(1, 3, 'Padding', 'none', 'TileSpacing', 'compact'); 
     
 nexttile    
-contourf(10*log10(X_true(:,:,k)), 100, 'linecolor', 'None');
+contourf(10*log10(X_true(:,:,k)+1e-10), 100, 'linecolor', 'None');
 set(gca,'XTick',[],'YTick',[])
 header = sprintf('True Map')
 title(header);
@@ -62,14 +63,14 @@ colormap jet;
 
 
 nexttile    
-contourf(10*log10(X_nasdac(:,:,k)), 100, 'linecolor', 'None');
+contourf(10*log10(X_nasdac(:,:,k)+1e-10), 100, 'linecolor', 'None');
 set(gca,'XTick',[],'YTick',[])
 header = sprintf('Nasdac')
 title(header);
 colormap jet;
 
 nexttile    
-contourf(10*log10(X_dowjons(:,:,k)), 100, 'linecolor', 'None');
+contourf(10*log10(X_dowjons(:,:,k)+1e-10), 100, 'linecolor', 'None');
 set(gca,'XTick',[],'YTick',[])
 header = sprintf('Dowjons')
 title(header);

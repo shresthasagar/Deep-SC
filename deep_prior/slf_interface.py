@@ -26,6 +26,8 @@ def nasdac_complete(S_omega, W, R, model_path='default'):
         autoencoder = torch.load(default_model_path)
 
     S_omega = torch.from_numpy(S_omega).type(torch.float32)
+    if S_omega.dim() == 2:
+        S_omega = S_omega.unsqueeze(dim=-1)
     W = torch.from_numpy(W).type(torch.float32)
 
     R = int(R)
@@ -52,6 +54,8 @@ def dowjons_get_initial_z(S_omega, W, R, model_path='default'):
         autoencoder = torch.load(default_model_path)
 
     S_omega= torch.from_numpy(S_omega).type(torch.float32)
+    if S_omega.dim() == 2:
+        S_omega = S_omega.unsqueeze(dim=-1)
     W = torch.from_numpy(W).type(torch.float32)
 
     R = int(R)
@@ -102,7 +106,11 @@ def optimize_s(W, X, Z, C, R, lambda_reg=0, model_path='default'):
     X = X.permute(2,0,1)
     # z = z.permute(2,0,1)
     # z = z.unsqueeze(dim=1)
+    print('Shape of C', C.shape)
+    if C.dim() == 1:
+        C = C.unsqueeze(dim=-1)
     C = C.permute(1,0)
+    print(f'Shape of C {C.shape} and Z {Z.shape}')
     W = W.unsqueeze(dim=0)
     W = W.unsqueeze(dim=0)
     Wr = W.repeat(R,1,1,1)
