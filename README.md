@@ -75,3 +75,20 @@ To run the code follow the followign installation instructions:
 ## Usage:
 Sample demonstration of the proposed method in the paper is available in `experiments/demo.m`. 
 
+## Training Deep Prior:
+To train a deep prior model follow the following steps:
+
+- Go to `deep_prior/generate_data` and in the `generate_slf.m`, provide destination paths for the training data. Also specify other parameters that suit your need. Then run the script.
+
+- Convert and save the generated matlab tensors as pytorch tensor for faster data loading during training by running the following command from the base directory:
+    ```bash
+    cd deep_prior
+    python convert_to_torch_tensor.py --data_folder <path to the training data> --save_folder <path to save the converted data>
+    ```
+
+- Train model by running the following from the base directory
+    ```bash
+    cd deep_prior
+    python train.py --train_data_folder <path to the training data> --validation_data_folder <path to validation data> --model_path <path to save the model> --img_size <length of your radio map region [square region is assumed]>
+    ```
+The model will be saved in the path provided in `--model_path`.
