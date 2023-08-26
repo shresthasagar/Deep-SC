@@ -15,15 +15,17 @@ lr = 0.01
 loop_count = 10
 criterion = nn.MSELoss()
 
-default_model_path = os.path.join(os.path.join(dir_path, '..', 'deep_prior/trained_models/slf_network.model'))
+default_model_path = os.path.join(os.path.join(dir_path, '..', 'deep_prior/trained_models/model1.pt'))
 
 
 def nasdac_complete(S_omega, W, R, model_path='default'):
-
+    autoencoder = AutoencoderSelu()
+    autoencoder.eval()
     if not model_path == 'default':
-        autoencoder  = torch.load(model_path)
+        checkpoint  = torch.load(model_path)
     else:
-        autoencoder = torch.load(default_model_path)
+        checkpoint = torch.load(default_model_path)
+    autoencoder.load_state_dict(checkpoint['model_state_dict'])
 
     S_omega = torch.from_numpy(S_omega).type(torch.float32)
     if S_omega.dim() == 2:
@@ -48,10 +50,13 @@ def nasdac_complete(S_omega, W, R, model_path='default'):
     return slf_comp.copy()
 
 def dowjons_get_initial_z(S_omega, W, R, model_path='default'):
+    autoencoder = AutoencoderSelu()
+    autoencoder.eval()
     if not model_path == 'default':
-        autoencoder  = torch.load(model_path)
+        checkpoint  = torch.load(model_path)
     else:
-        autoencoder = torch.load(default_model_path)
+        checkpoint = torch.load(default_model_path)
+    autoencoder.load_state_dict(checkpoint['model_state_dict'])
 
     S_omega= torch.from_numpy(S_omega).type(torch.float32)
     if S_omega.dim() == 2:
@@ -88,10 +93,13 @@ def optimize_s(W, X, Z, C, R, lambda_reg=0, model_path='default'):
     Returns:
         the updated latent vector estimate
     """
+    autoencoder = AutoencoderSelu()
+    autoencoder.eval()
     if not model_path == 'default':
-        autoencoder  = torch.load(model_path)
+        checkpoint  = torch.load(model_path)
     else:
-        autoencoder = torch.load(default_model_path)
+        checkpoint = torch.load(default_model_path)
+    autoencoder.load_state_dict(checkpoint['model_state_dict'])
 
     # Initialization need not be timed as it can be avoided by implementing everything in python
     # Data conversion to torch

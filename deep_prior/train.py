@@ -20,7 +20,7 @@ parser.add_argument('--device', type=str, default='cuda', help='device')
 parser.add_argument('--num_workers', type=int, default=5, help='number of workers')
 parser.add_argument('--criterion', type=str, default='l1', help='one of l1, l2')
 parser.add_argument('--train_data_folder', type=str, default='dataset/train_slf', help='data folder')
-parser.add_argument('--validation_data_folder', type=str, default='dataset/validation_slf', help='data folder')
+parser.add_argument('--validation_data_folder', type=str, default='dataset/valid_slf', help='data folder')
 parser.add_argument('--model_path', type=str, default='trained_models/model1.pt', help='model path')
 parser.add_argument('--resume', action='store_true', help='resume training')
 parser.add_argument('--num_epochs', type=int, default=150, help='number of epochs')
@@ -92,13 +92,18 @@ for epoch in range(saved_epoch, args.num_epochs):
 
     print('epoch: {}, train loss: {}, valid loss: {}'.format(epoch, np.mean(train_losses), np.mean(valid_losses)))
 
-
+    network.eval().cpu()
     torch.save({'epoch': epoch, 
                 'model_state_dict': network.state_dict(), 
                 'optimizer_state_dict': optimizer.state_dict(),
                 'loss': np.mean(train_losses),
                 'lr': args.lr},
                 args.model_path)
+    
+    network.train().to(args.device)
 
+# Finally, save only the network parameters so that the loading is faster
+network.eval().cpu()
+torch.save({'model_state_dict': network.state_dict()}, args.model_path)
 print('Finished Training')
 
